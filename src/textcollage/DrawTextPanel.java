@@ -42,7 +42,7 @@ public class DrawTextPanel extends JPanel  {
 	// variable should be replaced by a variable of type
 	// ArrayList<DrawStringItem> that can store multiple items.
 	
-	private DrawTextItem theString;  // change to an ArrayList<DrawTextItem> !
+	private ArrayList<DrawTextItem> theString;  // change to an ArrayList<DrawTextItem> !
 
 	
 	private Color currentTextColor = Color.BLACK;  // Color applied to new strings.
