@@ -174,6 +174,11 @@ public class DrawTextPanel extends JPanel  {
 			openItem.addActionListener(menuHandler);
 			fileMenu.add(openItem);
 			fileMenu.addSeparator();
+			JMenuItem importString = new JMenuItem("Import");
+			importString.setAccelerator(KeyStroke.getKeyStroke(commandKey + "I"));
+			importString.addActionListener(menuHandler);
+			fileMenu.add(importString);
+			fileMenu.addSeparator();
 			JMenuItem saveImageItem = new JMenuItem("Save Image...");
 			saveImageItem.addActionListener(menuHandler);
 			fileMenu.add(saveImageItem);
@@ -235,6 +240,19 @@ public class DrawTextPanel extends JPanel  {
 			if (selectFileName == null)
 				return;
 			try {
+				File selectFile = fileChooser.getOutputFile(this, "Select File Name", "text-file.txt");
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this,
+						"Sorry, could not open the file\n" + e);
+			}
+
+		}
+
+		else if (command.equals("Import...")) { // read a previously saved file, and reconstruct the list of strings
+			File selectFileName = fileChooser.getInputFile();
+			if (selectFileName == null)
+				return;
+			try {
 				FileInputStream drawItemFileInputStream = new FileInputStream(selectFileName);
 				ObjectInputStream drawTextItemSerialObject = new ObjectInputStream(drawItemFileInputStream);
 				Object ob =  drawTextItemSerialObject.readObject();
@@ -246,6 +264,7 @@ public class DrawTextPanel extends JPanel  {
 			}
 
 		}
+
 		else if (command.equals("Clear")) {  // remove all strings
 			theString.removeAll(theString);   // Remove the ONLY string from the canvas.
 			undoMenuItem.setEnabled(false);
@@ -292,6 +311,4 @@ public class DrawTextPanel extends JPanel  {
 			}
 		}
 	}
-	
-
 }
