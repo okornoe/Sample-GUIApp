@@ -42,7 +42,7 @@ public class DrawTextPanel extends JPanel  {
 	// variable should be replaced by a variable of type
 	// ArrayList<DrawStringItem> that can store multiple items.
 	
-	private ArrayList<DrawTextItem> theString;  // change to an ArrayList<DrawTextItem> !
+	private ArrayList<DrawTextItem> theString = new ArrayList<>();  // change to an ArrayList<DrawTextItem> !
 
 	
 	private Color currentTextColor = Color.BLACK;  // Color applied to new strings.
@@ -70,8 +70,11 @@ public class DrawTextPanel extends JPanel  {
 			super.paintComponent(g);
 			((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
 					RenderingHints.VALUE_ANTIALIAS_ON);
-			if (theString != null)
-				theString.draw(g);
+			if (theString != null && !theString.isEmpty()) {
+				for (DrawTextItem item : theString) {
+					item.draw(g);
+				}
+			}
 		}
 	}
 	
@@ -139,9 +142,11 @@ public class DrawTextPanel extends JPanel  {
 //		s.setBackground(Color.BLUE);  // Default is null, meaning don't draw a background area.
 //		s.setBackgroundTransparency(0.7);  // Default is 0, meaning background is not transparent.
 		
-		theString = s;  // Set this string as the ONLY string to be drawn on the canvas!
+		//theString = s;  // Set this string as the ONLY string to be drawn on the canvas!
+		theString.add(s);
 		undoMenuItem.setEnabled(true);
 		canvas.repaint();
+
 	}
 	
 	/**
