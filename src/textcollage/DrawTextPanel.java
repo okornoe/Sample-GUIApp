@@ -14,6 +14,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -208,7 +211,35 @@ public class DrawTextPanel extends JPanel  {
 	 */
 	private void doMenuCommand(String command) {
 		if (command.equals("Save...")) { // save all the string info to a file
-			JOptionPane.showMessageDialog(this, "Sorry, the Save command is not implemented.");
+			//JOptionPane.showMessageDialog(this, "Sorry, the Save command is not implemented.");
+			File selectFileName = fileChooser.getOutputFile(this, "Select File Name", "text-file.txt");
+			if (selectFileName == null)
+				return;
+			try {
+				// Because the image is not available, I will make a new BufferedImage and
+				// draw the same data to the BufferedImage as is shown in the panel.
+				// A BufferedImage is an image that is stored in memory, not on the screen.
+				// There is a convenient method for writing a BufferedImage to a file.
+
+/*				BufferedImage image = new BufferedImage(canvas.getWidth(),canvas.getHeight(),
+						BufferedImage.TYPE_INT_RGB);
+				Graphics g = image.getGraphics();
+				g.setFont(canvas.getFont());
+				canvas.paintComponent(g);  // draws the canvas onto the BufferedImage, not the screen!
+				boolean ok = ImageIO.write(image, "PNG", selectFileName); // write to the file
+				if (ok == false)
+					throw new Exception("PNG format not supported (this shouldn't happen!).");*/
+
+				FileOutputStream drawItemFileOutputStream = new FileOutputStream(selectFileName);
+				ObjectOutputStream drawTextItemSerialObject = new ObjectOutputStream(drawItemFileOutputStream);
+				drawTextItemSerialObject.writeObject(theString);
+				drawItemFileOutputStream.flush();
+				drawItemFileOutputStream.close();
+			}
+			catch (Exception e) {
+				JOptionPane.showMessageDialog(this,
+						"Sorry, could not save the file\n" + e);
+			}
 		}
 		else if (command.equals("Open...")) { // read a previously saved file, and reconstruct the list of strings
 			JOptionPane.showMessageDialog(this, "Sorry, the Open command is not implemented.");
