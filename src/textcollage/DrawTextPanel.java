@@ -13,10 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -234,8 +231,20 @@ public class DrawTextPanel extends JPanel  {
 			}
 		}
 		else if (command.equals("Open...")) { // read a previously saved file, and reconstruct the list of strings
-			JOptionPane.showMessageDialog(this, "Sorry, the Open command is not implemented.");
-			canvas.repaint(); // (you'll need this to make the new list of strings take effect)
+			File selectFileName = fileChooser.getInputFile();
+			if (selectFileName == null)
+				return;
+			try {
+				FileInputStream drawItemFileInputStream = new FileInputStream(selectFileName);
+				ObjectInputStream drawTextItemSerialObject = new ObjectInputStream(drawItemFileInputStream);
+				Object ob =  drawTextItemSerialObject.readObject();
+				theString = (ArrayList<DrawTextItem>) ob;
+				canvas.repaint(); // (you'll need this to make the new list of strings take effect)
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this,
+						"Sorry, could not open the file\n" + e);
+			}
+
 		}
 		else if (command.equals("Clear")) {  // remove all strings
 			theString.removeAll(theString);   // Remove the ONLY string from the canvas.
