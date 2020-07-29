@@ -1,20 +1,17 @@
 package textcollage;
 
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.*;
+import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JColorChooser;
@@ -132,6 +129,8 @@ public class DrawTextPanel extends JPanel  {
 		}
 		DrawTextItem s = new DrawTextItem( text, e.getX(), e.getY() );
 		s.setTextColor(currentTextColor);  // Default is null, meaning default color of the canvas (black).
+
+
 		
 //   SOME OTHER OPTIONS THAT CAN BE APPLIED TO TEXT ITEMS:
 //		s.setFont( new Font( "Serif", Font.ITALIC + Font.BOLD, 12 ));  // Default is null, meaning font of canvas.
@@ -146,7 +145,6 @@ public class DrawTextPanel extends JPanel  {
 		theString.add(s);
 		undoMenuItem.setEnabled(true);
 		canvas.repaint();
-
 	}
 	
 	/**
@@ -202,7 +200,6 @@ public class DrawTextPanel extends JPanel  {
 			JMenuItem bgColorItem = new JMenuItem("Set Background Color...");
 			bgColorItem.addActionListener(menuHandler);
 			optionsMenu.add(bgColorItem);
-			
 		}
 		return menuBar;
 	}
@@ -249,15 +246,24 @@ public class DrawTextPanel extends JPanel  {
 				JOptionPane.showMessageDialog(this,
 						"Sorry, could not open the file\n" + e);
 			}
-
 		}
 
-		//working area
-		else if (command.equals("Import...")) { // read a previously saved file, and reconstruct the list of strings
-			File selectFileName = fileChooser.getInputFile();
-			if (selectFileName == null)
+		//import a string of files and draw the string on the canvas
+		else if (command.equals("Import")) { // read a previously saved file, and reconstruct the list of strings
+			File selectFile = fileChooser.getInputFile();
+			if (selectFile == null)
 				return;
 			try {
+				BufferedReader br = new BufferedReader(new FileReader(selectFile));
+				String st;
+				while ((st = br.readLine()) != null) {
+					Random rnd = new Random();
+					final int x = rnd.nextInt(100) + 10;
+					final int y = rnd.nextInt(100) + 10;
+					DrawTextItem drawTextItem = new DrawTextItem(st, x,y);
+					drawTextItem.draw(canvas.getGraphics());
+				}
+
 
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this,
