@@ -240,19 +240,6 @@ public class DrawTextPanel extends JPanel  {
 			if (selectFileName == null)
 				return;
 			try {
-				File selectFile = fileChooser.getOutputFile(this, "Select File Name", "text-file.txt");
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(this,
-						"Sorry, could not open the file\n" + e);
-			}
-
-		}
-
-		else if (command.equals("Import...")) { // read a previously saved file, and reconstruct the list of strings
-			File selectFileName = fileChooser.getInputFile();
-			if (selectFileName == null)
-				return;
-			try {
 				FileInputStream drawItemFileInputStream = new FileInputStream(selectFileName);
 				ObjectInputStream drawTextItemSerialObject = new ObjectInputStream(drawItemFileInputStream);
 				Object ob =  drawTextItemSerialObject.readObject();
@@ -263,6 +250,19 @@ public class DrawTextPanel extends JPanel  {
 						"Sorry, could not open the file\n" + e);
 			}
 
+		}
+
+		//working area
+		else if (command.equals("Import...")) { // read a previously saved file, and reconstruct the list of strings
+			File selectFileName = fileChooser.getInputFile();
+			if (selectFileName == null)
+				return;
+			try {
+
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this,
+						"Sorry, could not open the file\n" + e);
+			}
 		}
 
 		else if (command.equals("Clear")) {  // remove all strings
