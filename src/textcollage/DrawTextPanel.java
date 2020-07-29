@@ -215,12 +215,12 @@ public class DrawTextPanel extends JPanel  {
 			canvas.repaint(); // (you'll need this to make the new list of strings take effect)
 		}
 		else if (command.equals("Clear")) {  // remove all strings
-			theString = null;   // Remove the ONLY string from the canvas.
+			theString.removeAll(theString);   // Remove the ONLY string from the canvas.
 			undoMenuItem.setEnabled(false);
 			canvas.repaint();
 		}
 		else if (command.equals("Remove Item")) { // remove the most recently added string
-			theString = null;   // Remove the ONLY string from the canvas.
+			theString.remove(theString.size() -1);   // Remove the ONLY string from the canvas.
 			undoMenuItem.setEnabled(false);
 			canvas.repaint();
 		}
