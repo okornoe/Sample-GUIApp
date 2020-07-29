@@ -221,14 +221,6 @@ public class DrawTextPanel extends JPanel  {
 				// A BufferedImage is an image that is stored in memory, not on the screen.
 				// There is a convenient method for writing a BufferedImage to a file.
 
-/*				BufferedImage image = new BufferedImage(canvas.getWidth(),canvas.getHeight(),
-						BufferedImage.TYPE_INT_RGB);
-				Graphics g = image.getGraphics();
-				g.setFont(canvas.getFont());
-				canvas.paintComponent(g);  // draws the canvas onto the BufferedImage, not the screen!
-				boolean ok = ImageIO.write(image, "PNG", selectFileName); // write to the file
-				if (ok == false)
-					throw new Exception("PNG format not supported (this shouldn't happen!).");*/
 
 				FileOutputStream drawItemFileOutputStream = new FileOutputStream(selectFileName);
 				ObjectOutputStream drawTextItemSerialObject = new ObjectOutputStream(drawItemFileOutputStream);
